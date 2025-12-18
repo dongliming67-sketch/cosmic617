@@ -7,6 +7,7 @@ import mermaid from 'mermaid';
 import ArchitectureDiagram from './ArchitectureDiagram';
 import CosmicToSpec from './CosmicToSpec';
 import RequirementReview from './RequirementReview';
+import RequirementAssistant from './RequirementAssistant';
 import ChatAgent from './ChatAgent';
 import CodeGenerator from './CodeGenerator';
 import {
@@ -36,7 +37,8 @@ import {
   ArrowRight,
   GitBranch,
   Search,
-  MessageSquare
+  MessageSquare,
+  ClipboardList
 } from 'lucide-react';
 
 function App() {
@@ -102,12 +104,12 @@ function App() {
   const [isEnhancing, setIsEnhancing] = useState(false);
   const [enableMultiRoundEnhance, setEnableMultiRoundEnhance] = useState(true);
   
-  // 模板选择状态
+  // 模板选择状态 - 默认为0（通用模板，不强制格式）
   const [selectedTemplate, setSelectedTemplate] = useState(() => {
     if (typeof window !== 'undefined') {
-      return parseInt(window.localStorage.getItem('selectedTemplate') || '1', 10);
+      return parseInt(window.localStorage.getItem('selectedTemplate') || '0', 10);
     }
-    return 1;
+    return 0;
   });
 
   const messagesEndRef = useRef(null);
@@ -147,8 +149,8 @@ function App() {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       window.localStorage.setItem('selectedTemplate', String(selectedTemplate));
-      // 根据模板调整总轮次
-      setTotalEnhanceRounds(selectedTemplate === 1 ? 14 : 10);
+      // 根据模板调整总轮次：0=通用(1轮), 1=完整型(14轮), 2=简洁型(10轮)
+      setTotalEnhanceRounds(selectedTemplate === 0 ? 1 : (selectedTemplate === 1 ? 14 : 10));
     }
   }, [selectedTemplate]);
 
@@ -583,11 +585,71 @@ function App() {
     setSpecPhase('analysis');
     setEnhanceRound(0);
 
-    const templateName = selectedTemplate === 1 ? '完整型需求规格说明书' : '江苏移动项目需求文档';
-    const chapterCount = selectedTemplate === 1 ? 7 : 5;
-    const rounds = selectedTemplate === 1 ? 14 : 10;
+    const templateName = selectedTemplate === 0 ? '通用需求规格书' : 
+                          (selectedTemplate === 1 ? '完整型需求规格说明书' : '江苏移动项目需求文档');
+    const chapterCount = selectedTemplate === 0 ? 0 : (selectedTemplate === 1 ? 7 : 5);
+    const rounds = selectedTemplate === 0 ? 1 : (selectedTemplate === 1 ? 14 : 10);
 
     try {
+      // 模板0：通用模板，直接一次性生成完整的需求规格书，不使用模板格式
+      if (selectedTemplate === 0) {
+        setSpecMessages(prev => [...prev, {
+          role: 'system',
+          content: '🔄 正在生成通用需求规格书...\n💡 AI将根据文档内容自动确定章节结构'
+        }]);
+        
+        // 调用通用生成接口（直接生成，不分章节）
+        const response = await fetch('/api/requirement-spec/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ documentContent: content, images })
+        });
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let fullContent = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split('\n');
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6);
+              if (data === '[DONE]') {
+                setIsGeneratingSpec(false);
+                setSpecContent(fullContent);
+                setSpecMessages(prev => {
+                  const filtered = prev.filter(m => !m.content.startsWith('🔄'));
+                  return [...filtered, {
+                    role: 'system',
+                    content: '✅ 需求规格书生成完成！可点击"导出Word"下载文档。'
+                  }];
+                });
+                return;
+              }
+
+              try {
+                const parsed = JSON.parse(data);
+                if (parsed.error) {
+                  throw new Error(parsed.error);
+                }
+                if (parsed.content) {
+                  fullContent += parsed.content;
+                  setSpecStreamingContent(fullContent);
+                }
+              } catch (e) {
+                // 忽略解析错误
+              }
+            }
+          }
+        }
+        return;
+      }
+      
       // 模板2：直接进入章节生成流程，不需要先调用generate接口
       if (selectedTemplate === 2) {
         setSpecMessages(prev => [...prev, {
@@ -1601,6 +1663,7 @@ function App() {
                  activeModule === 'requirement' ? '需求规格书生成' : 
                  activeModule === 'cosmicToSpec' ? 'COSMIC转需求规格书' :
                  activeModule === 'review' ? '需求评审智能体' :
+                 activeModule === 'assistant' ? '需求文档助手' :
                  activeModule === 'chat' ? '智器云AI助手' :
                  activeModule === 'codeGen' ? '编程智能体' :
                  '架构图生成'}
@@ -1625,6 +1688,7 @@ function App() {
               { id: 'cosmicToSpec', icon: FileOutput, label: '转规格书' },
               { id: 'diagram', icon: GitBranch, label: '架构图' },
               { id: 'review', icon: Search, label: '需求评审' },
+              { id: 'assistant', icon: ClipboardList, label: '需求助手' },
               { id: 'chat', icon: MessageSquare, label: 'AI助手' },
               { id: 'codeGen', icon: Zap, label: '编程' }
             ].map(module => (
@@ -2178,9 +2242,39 @@ function App() {
               <div className="mt-4 p-4 bg-claude-bg-cream rounded-lg border border-claude-border-warm">
                 <h3 className="text-sm font-serif font-semibold text-claude-text-primary mb-3 flex items-center gap-2">
                   <Layers className="w-4 h-4 text-claude-accent-primary" />
-                  选择文档模板
+                  选择文档模板（可选）
                 </h3>
                 <div className="space-y-2">
+                  {/* 模板0 - 通用模板 */}
+                  <label 
+                    className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                      selectedTemplate === 0 
+                        ? 'bg-white border border-claude-accent-primary shadow-sm' 
+                        : 'bg-white/50 border border-claude-border hover:border-claude-text-muted'
+                    }`}
+                  >
+                    <div className={`mt-1 w-4 h-4 rounded-full border flex items-center justify-center ${
+                      selectedTemplate === 0 ? 'border-claude-accent-primary' : 'border-claude-border'
+                    }`}>
+                      {selectedTemplate === 0 && <div className="w-2 h-2 rounded-full bg-claude-accent-primary" />}
+                    </div>
+                    <input
+                      type="radio"
+                      name="template"
+                      value={0}
+                      checked={selectedTemplate === 0}
+                      onChange={(e) => setSelectedTemplate(parseInt(e.target.value, 10))}
+                      className="hidden"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className={`font-medium ${selectedTemplate === 0 ? 'text-claude-accent-primary' : 'text-claude-text-primary'}`}>通用模板（推荐）</span>
+                        <span className="text-xs px-2 py-0.5 bg-green-50 text-green-700 border border-green-200 rounded">智能生成</span>
+                      </div>
+                      <p className="text-xs text-claude-text-muted mt-1">AI根据文档内容自动确定章节结构，一次性生成完整文档</p>
+                    </div>
+                  </label>
+                  
                   {/* 模板1 */}
                   <label 
                     className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all duration-200 ${
@@ -2245,10 +2339,11 @@ function App() {
                 {/* 生成轮次提示 */}
                 <div className="mt-3 flex items-center justify-between text-xs border-t border-claude-border-warm pt-3">
                   <span className="text-claude-text-muted">
-                    {selectedTemplate === 1 ? '每章节生成+完善，共14轮AI调用' : '每章节生成+完善，共10轮AI调用'}
+                    {selectedTemplate === 0 ? 'AI一次性智能生成完整文档' : 
+                     (selectedTemplate === 1 ? '每章节生成+完善，共14轮AI调用' : '每章节生成+完善，共10轮AI调用')}
                   </span>
                   <span className="font-semibold text-claude-accent-primary">
-                    {totalEnhanceRounds}轮
+                    {selectedTemplate === 0 ? '1轮' : `${totalEnhanceRounds}轮`}
                   </span>
                 </div>
               </div>
@@ -2455,6 +2550,14 @@ function App() {
         {/* 需求评审智能体模块 */}
         {activeModule === 'review' && (
           <RequirementReview 
+            apiStatus={apiStatus} 
+            setShowSettings={setShowSettings} 
+          />
+        )}
+
+        {/* 需求文档助手模块 */}
+        {activeModule === 'assistant' && (
+          <RequirementAssistant 
             apiStatus={apiStatus} 
             setShowSettings={setShowSettings} 
           />

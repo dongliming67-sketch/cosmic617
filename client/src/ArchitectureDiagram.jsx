@@ -106,18 +106,36 @@ function ArchitectureDiagram({ documentContent, documentName }) {
           "modules": ["模块1", "模块2", "模块3", "模块4"]
         }
       ]
+    },
+    {
+      "name": "服务层",
+      "groups": [...]
+    },
+    {
+      "name": "数据层",
+      "groups": [...]
+    },
+    {
+      "name": "基础设施层",
+      "groups": [...]
     }
   ]
 }
 \`\`\`
 
+**注意**：layers数组的顺序非常重要！必须从上到下排列：
+- 第一个：应用层/展示层/接入层（最上层）
+- 中间：服务层/业务层/数据处理层
+- 最后：数据层/基础设施层/数据源（最底层）
+
 ## 重要规则
 1. **完全基于文档**：所有模块名称必须从文档中提取，禁止编造
 2. **层级划分**：通常分为 应用层、服务层、数据层、基础设施层 等3-5层
-3. **分组均衡**：每层2-4个分组，每个分组5-10个模块，尽量均匀分布
-4. **模块简洁**：modules数组直接用字符串，不需要对象格式
-5. **名称专业**：使用文档中的专业术语，保持简洁（2-6个字）
-6. **覆盖全面**：提取文档中所有功能模块，不要遗漏
+3. **层级顺序**：⚠️ layers数组必须按照从上到下的顺序排列，即：应用层/展示层在第一个，基础设施层/数据源在最后一个
+4. **分组均衡**：每层2-4个分组，每个分组5-10个模块，尽量均匀分布
+5. **模块简洁**：modules数组直接用字符串，不需要对象格式
+6. **名称专业**：使用文档中的专业术语，保持简洁（2-6个字）
+7. **覆盖全面**：提取文档中所有功能模块，不要遗漏
 
 ## 原始需求文档：
 `;
@@ -306,8 +324,8 @@ function ArchitectureDiagram({ documentContent, documentName }) {
         fontFace: 'Microsoft YaHei'
       });
 
-      // 计算每层需要的高度（根据最大模块数）- 反转层级顺序以匹配页面显示
-      const layers = [...(architectureData.layers || [])].reverse();
+      // 计算每层需要的高度（根据最大模块数）- 保持原始顺序，展示层在上
+      const layers = architectureData.layers || [];
       const layerGap = 0.08;
       const groupHeaderHeight = 0.28;
       const moduleHeight = 0.28;
@@ -832,16 +850,16 @@ function ArchitectureDiagram({ documentContent, documentName }) {
               )}
             </div>
 
-            {/* 分层架构 - 反转层级顺序，使底层在下、顶层在上 */}
+            {/* 分层架构 - 展示层在上，数据层在下 */}
             <div className="space-y-0">
-              {[...(architectureData.layers || [])].reverse().map((layer, reversedIdx) => {
+              {(architectureData.layers || []).map((layer, layerIdx) => {
                 const colors = getLayerColor(layer.name);
                 const groupCount = layer.groups?.length || 1;
-                // 计算原始数组中的索引（用于编辑操作）
-                const originalLayerIdx = (architectureData.layers?.length || 0) - 1 - reversedIdx;
+                // 原始数组索引
+                const originalLayerIdx = layerIdx;
                 return (
-                  <div key={reversedIdx} className="relative">
-                    <div className="flex border border-claude-border-warm relative shadow-sm" style={{ borderTopWidth: reversedIdx === 0 ? 1 : 0 }}>
+                  <div key={layerIdx} className="relative">
+                    <div className="flex border border-claude-border-warm relative shadow-sm" style={{ borderTopWidth: layerIdx === 0 ? 1 : 0 }}>
                       {/* 编辑模式：层级操作按钮 */}
                       {isEditMode && (
                         <div className="absolute -left-10 top-1/2 -translate-y-1/2 flex flex-col gap-2">
@@ -1013,7 +1031,7 @@ function ArchitectureDiagram({ documentContent, documentName }) {
                     </div>
                     
                     {/* 层级间连接线 */}
-                    {reversedIdx < architectureData.layers.length - 1 && (
+                    {layerIdx < architectureData.layers.length - 1 && (
                       <div className="flex justify-center h-4 items-center">
                         <div className="w-0.5 h-full bg-claude-border-warm"></div>
                       </div>
