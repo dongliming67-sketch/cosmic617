@@ -1544,6 +1544,50 @@ function generatePriorityQuadrantDiagram(functions = []) {
 }
 
 /**
+ * 生成功能架构图 HTML（使用真实模块分组）
+ * @param {Array} modules - 模块列表 [{name: '模块名', functions: [...], color: '#颜色'}]
+ * @param {string} systemName - 系统名称
+ * @returns {string} HTML字符串
+ */
+function generateFunctionArchitectureDiagramWithModules(modules = [], systemName = '系统') {
+  if (!modules || modules.length === 0) {
+    return generateFunctionArchitectureDiagram([], systemName);
+  }
+  
+  return `
+<div style="font-family: 'Microsoft YaHei', Arial, sans-serif; padding: 20px; background: white;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <h3 style="margin: 0; color: #333;">${systemName} 功能架构图</h3>
+  </div>
+  
+  <!-- 系统层 -->
+  <div style="background: #1976d2; color: white; text-align: center; padding: 15px; border-radius: 8px 8px 0 0; font-weight: bold; font-size: 16px;">
+    ${systemName}
+  </div>
+  
+  <!-- 模块层 -->
+  <div style="display: grid; grid-template-columns: repeat(${Math.min(modules.length, 4)}, 1fr); gap: 10px; padding: 15px; background: #f5f5f5; border: 1px solid #ddd;">
+    ${modules.map((module, idx) => `
+      <div style="background: ${module.color || ['#e3f2fd', '#fff3e0', '#e8f5e9', '#fce4ec'][idx % 4]}; border-radius: 6px; padding: 12px; border: 1px solid #ddd;">
+        <div style="font-weight: bold; color: #333; margin-bottom: 8px; text-align: center; font-size: 13px;">
+          ${module.name}
+        </div>
+        <ul style="margin: 0; padding-left: 15px; font-size: 11px; color: #555;">
+          ${module.functions.slice(0, 4).map(f => `<li style="margin: 3px 0;">${f.name || f}</li>`).join('')}
+          ${module.functions.length > 4 ? `<li style="color: #999;">...等${module.functions.length}项</li>` : ''}
+        </ul>
+      </div>
+    `).join('')}
+  </div>
+  
+  <!-- 基础层 -->
+  <div style="background: #424242; color: white; text-align: center; padding: 10px; border-radius: 0 0 8px 8px; font-size: 12px;">
+    数据库 | 缓存 | 消息队列 | 日志服务
+  </div>
+</div>`;
+}
+
+/**
  * 生成功能架构图 HTML
  * @param {Array} functions - 功能列表
  * @param {string} systemName - 系统名称
@@ -1605,6 +1649,7 @@ module.exports = {
   generateHTMLDataFlowDiagram,
   generatePriorityQuadrantDiagram,
   generateFunctionArchitectureDiagram,
+  generateFunctionArchitectureDiagramWithModules,
   // 基于AI分析的增强版图表生成
   generateUseCaseDiagramFromAnalysis,
   generateQuadrantDiagramFromAnalysis,

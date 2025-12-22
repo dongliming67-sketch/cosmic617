@@ -21,6 +21,7 @@ const {
   generateHTMLDataFlowDiagram,
   generatePriorityQuadrantDiagram,
   generateFunctionArchitectureDiagram,
+  generateFunctionArchitectureDiagramWithModules,
   // 基于AI分析的增强版
   generateUseCaseDiagramFromAnalysis,
   generateQuadrantDiagramFromAnalysis,
@@ -7758,10 +7759,18 @@ app.post('/api/cosmic-to-spec/generate', async (req, res) => {
     console.log(`[前置章节] 一级章节数量: ${level1HeaderChapters.length}`);
 
     // 从功能列表中提取用于图表生成的信息
-    const functionsForDiagram = (functionalProcesses || []).map(item => ({
-      name: item.process || item.functionalProcess || item.name || '',
-      description: item.description || ''
-    }));
+    // 【修复】functionalProcesses 是字符串数组（功能过程名称），需要正确处理
+    const functionsForDiagram = (functionalProcesses || []).map(processName => {
+      // processName 是字符串（功能过程名称）
+      const processData = groupedByProcess[processName] || [];
+      // 从COSMIC数据中提取描述信息
+      const firstRow = processData[0] || {};
+      const description = firstRow.subProcessDesc || firstRow.description || '';
+      return {
+        name: processName,
+        description: description
+      };
+    });
 
     for (const chapter of level1HeaderChapters) {
       // 获取该一级章节下的所有子章节
@@ -7856,7 +7865,9 @@ ${classifiedOverview.slice(0, 2000)}
         try {
           let diagramHtml = '';
           const diagramTitle = diagramChapter.title;
-          const systemName = processClassification?.systemName || functionalProcesses[0]?.systemName || '系统';
+          // 【修复】从COSMIC数据中获取系统名称
+          const firstProcessData = groupedByProcess[functionalProcesses[0]] || [];
+          const systemName = processClassification?.systemName || firstProcessData[0]?.systemName || '系统';
           
           // 【增强】构建更详细的功能列表，包含COSMIC数据
           const functionsText = functionsForDiagram.map((f, i) => {
@@ -7883,6 +7894,121 @@ ${classifiedOverview.slice(0, 2000)}
             }
             return funcDesc;
           }).join('\n');
+          
+          // 【新增】从COSMIC数据中提取真实信息的辅助函数
+          // 1. 提取真实的参与者（从functionalUser字段）
+          const extractRealActors = () => {
+            const actorMap = new Map();
+            functionsForDiagram.forEach(f => {
+              const processData = groupedByProcess[f.name] || [];
+              processData.forEach(row => {
+                const user = row.functionalUser;
+                if (user && user.trim()) {
+                  if (!actorMap.has(user)) {
+                    actorMap.set(user, {
+                      name: user,
+                      description: user.includes('管理') ? '系统管理人员' : 
+                                   user.includes('操作') ? '业务操作人员' :
+                                   user.includes('审核') ? '审核人员' :
+                                   user.includes('查询') ? '查询人员' : '系统使用者'
+                    });
+                  }
+                }
+              });
+            });
+            const actors = Array.from(actorMap.values());
+            return actors.length > 0 ? actors : [{ name: '用户', description: '系统使用者' }];
+          };
+          
+          // 2. 从功能描述和COSMIC数据中分析优先级和紧急程度
+          const analyzePriorityAndUrgency = (functions) => {
+            return functions.map(f => {
+              const processData = groupedByProcess[f.name] || [];
+              let priority = 'medium'; // high, medium, low
+              let urgency = 'medium'; // high, medium, low
+              
+              // 从功能名称和描述中推断
+              const nameLower = (f.name || '').toLowerCase();
+              const descLower = (f.description || '').toLowerCase();
+              const combined = nameLower + ' ' + descLower;
+              
+              // 优先级判断：核心、关键、重要等关键词
+              if (combined.match(/核心|关键|重要|必须|必要|基础|核心业务/)) {
+                priority = 'high';
+              } else if (combined.match(/辅助|次要|可选|扩展|增强/)) {
+                priority = 'low';
+              }
+              
+              // 紧急程度判断：紧急、立即、实时、告警等关键词
+              if (combined.match(/紧急|立即|实时|告警|监控|预警|异常|故障/)) {
+                urgency = 'high';
+              } else if (combined.match(/历史|统计|报表|分析|查询|归档/)) {
+                urgency = 'low';
+              }
+              
+              // 从数据移动类型推断：如果有E和X（入口和出口），可能是高紧急
+              if (processData.length > 0) {
+                const hasEntry = processData.some(d => d.dataMovementType === 'E');
+                const hasExit = processData.some(d => d.dataMovementType === 'X');
+                if (hasEntry && hasExit) {
+                  urgency = urgency === 'low' ? 'medium' : urgency;
+                }
+              }
+              
+              return {
+                ...f,
+                priority,
+                urgency
+              };
+            });
+          };
+          
+          // 3. 从功能描述和数据移动类型中分析模块分组
+          const analyzeModuleGroups = (functions) => {
+            const moduleMap = new Map();
+            
+            functions.forEach(f => {
+              const processData = groupedByProcess[f.name] || [];
+              const nameLower = (f.name || '').toLowerCase();
+              const descLower = (f.description || '').toLowerCase();
+              const combined = nameLower + ' ' + descLower;
+              
+              let moduleName = '其他功能模块';
+              
+              // 根据功能名称和描述推断模块
+              if (combined.match(/用户|登录|注册|权限|角色|账号/)) {
+                moduleName = '用户管理模块';
+              } else if (combined.match(/数据|信息|记录|档案|资料/)) {
+                moduleName = '数据管理模块';
+              } else if (combined.match(/配置|设置|参数|系统设置/)) {
+                moduleName = '系统配置模块';
+              } else if (combined.match(/查询|搜索|检索|查找|列表/)) {
+                moduleName = '查询检索模块';
+              } else if (combined.match(/审核|审批|流程|工作流/)) {
+                moduleName = '业务流程模块';
+              } else if (combined.match(/统计|报表|分析|图表|数据可视化/)) {
+                moduleName = '统计分析模块';
+              } else if (combined.match(/核心|主要|关键业务/)) {
+                moduleName = '核心业务模块';
+              } else if (processData.length > 0) {
+                // 根据数据移动类型推断：如果有W（写入），可能是数据管理
+                const hasWrite = processData.some(d => d.dataMovementType === 'W');
+                if (hasWrite) {
+                  moduleName = '数据管理模块';
+                }
+              }
+              
+              if (!moduleMap.has(moduleName)) {
+                moduleMap.set(moduleName, []);
+              }
+              moduleMap.get(moduleName).push(f);
+            });
+            
+            return Array.from(moduleMap.entries()).map(([name, funcs]) => ({
+              name,
+              functions: funcs
+            }));
+          };
           
           console.log(`[图表数据] 为 ${diagramTitle} 准备了 ${functionsForDiagram.length} 个功能`);
           
@@ -7917,21 +8043,38 @@ ${classifiedOverview.slice(0, 2000)}
                 diagramHtml = generateUseCaseDiagramFromAnalysis(parsed, systemName);
                 console.log(`✅ 用例图生成成功，包含 ${parsed.actors?.length || 0} 个参与者, ${parsed.useCases?.length || 0} 个用例`);
               } else {
-                // 降级到简单版本
-                console.log('⚠️ JSON解析失败，使用简单版本');
-                diagramHtml = generateHTMLUseCaseDiagram(
-                  [{ name: '用户', description: '系统使用者' }],
-                  functionsForDiagram.slice(0, 15).map(f => ({ name: f.name, actor: '用户' })),
-                  systemName
-                );
+                // 【修复】降级到简单版本时，从COSMIC数据中提取真实的参与者
+                console.log('⚠️ JSON解析失败，从COSMIC数据中提取真实信息生成用例图');
+                const realActors = extractRealActors();
+                // 为每个功能分配对应的参与者
+                const useCases = functionsForDiagram.slice(0, 20).map(f => {
+                  const processData = groupedByProcess[f.name] || [];
+                  const user = processData[0]?.functionalUser;
+                  // 找到对应的参与者，如果没有则使用第一个参与者
+                  const actor = realActors.find(a => a.name === user) || realActors[0];
+                  return {
+                    name: f.name,
+                    actor: actor.name,
+                    description: f.description || ''
+                  };
+                });
+                diagramHtml = generateHTMLUseCaseDiagram(realActors, useCases, systemName);
               }
             } catch (aiError) {
-              console.log('AI分析用例失败，使用简单版本:', aiError.message);
-              diagramHtml = generateHTMLUseCaseDiagram(
-                [{ name: '用户', description: '系统使用者' }],
-                functionsForDiagram.slice(0, 15).map(f => ({ name: f.name, actor: '用户' })),
-                systemName
-              );
+              // 【修复】AI分析失败时，也从COSMIC数据中提取真实信息
+              console.log('AI分析用例失败，从COSMIC数据中提取真实信息生成用例图:', aiError.message);
+              const realActors = extractRealActors();
+              const useCases = functionsForDiagram.slice(0, 20).map(f => {
+                const processData = groupedByProcess[f.name] || [];
+                const user = processData[0]?.functionalUser;
+                const actor = realActors.find(a => a.name === user) || realActors[0];
+                return {
+                  name: f.name,
+                  actor: actor.name,
+                  description: f.description || ''
+                };
+              });
+              diagramHtml = generateHTMLUseCaseDiagram(realActors, useCases, systemName);
             }
             
           } else if (diagramTitle.includes('象限图')) {
@@ -7965,12 +8108,34 @@ ${classifiedOverview.slice(0, 2000)}
                 diagramHtml = generateQuadrantDiagramFromAnalysis(parsed);
                 console.log(`✅ 象限图生成成功`);
               } else {
-                console.log('⚠️ JSON解析失败，使用简单版本');
-                diagramHtml = generatePriorityQuadrantDiagram(functionsForDiagram);
+                // 【修复】从COSMIC数据中分析真实的优先级和紧急程度
+                console.log('⚠️ JSON解析失败，从COSMIC数据中分析真实优先级生成象限图');
+                const functionsWithPriority = analyzePriorityAndUrgency(functionsForDiagram);
+                // 按优先级和紧急程度分配到四个象限
+                const q1 = functionsWithPriority.filter(f => f.priority === 'high' && f.urgency === 'high');
+                const q2 = functionsWithPriority.filter(f => f.priority === 'high' && f.urgency !== 'high');
+                const q3 = functionsWithPriority.filter(f => f.priority !== 'high' && f.urgency === 'high');
+                const q4 = functionsWithPriority.filter(f => f.priority !== 'high' && f.urgency !== 'high');
+                // 如果某个象限为空，从其他象限补充
+                if (q1.length === 0 && functionsWithPriority.length > 0) q1.push(...functionsWithPriority.slice(0, Math.ceil(functionsWithPriority.length * 0.3)));
+                if (q2.length === 0 && functionsWithPriority.length > 0) q2.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.3), Math.ceil(functionsWithPriority.length * 0.5)));
+                if (q3.length === 0 && functionsWithPriority.length > 0) q3.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.5), Math.ceil(functionsWithPriority.length * 0.8)));
+                if (q4.length === 0 && functionsWithPriority.length > 0) q4.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.8)));
+                diagramHtml = generatePriorityQuadrantDiagram([...q1, ...q2, ...q3, ...q4]);
               }
             } catch (aiError) {
-              console.log('AI分析象限图失败，使用简单版本:', aiError.message);
-              diagramHtml = generatePriorityQuadrantDiagram(functionsForDiagram);
+              // 【修复】AI分析失败时，也从COSMIC数据中分析真实优先级
+              console.log('AI分析象限图失败，从COSMIC数据中分析真实优先级生成象限图:', aiError.message);
+              const functionsWithPriority = analyzePriorityAndUrgency(functionsForDiagram);
+              const q1 = functionsWithPriority.filter(f => f.priority === 'high' && f.urgency === 'high');
+              const q2 = functionsWithPriority.filter(f => f.priority === 'high' && f.urgency !== 'high');
+              const q3 = functionsWithPriority.filter(f => f.priority !== 'high' && f.urgency === 'high');
+              const q4 = functionsWithPriority.filter(f => f.priority !== 'high' && f.urgency !== 'high');
+              if (q1.length === 0 && functionsWithPriority.length > 0) q1.push(...functionsWithPriority.slice(0, Math.ceil(functionsWithPriority.length * 0.3)));
+              if (q2.length === 0 && functionsWithPriority.length > 0) q2.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.3), Math.ceil(functionsWithPriority.length * 0.5)));
+              if (q3.length === 0 && functionsWithPriority.length > 0) q3.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.5), Math.ceil(functionsWithPriority.length * 0.8)));
+              if (q4.length === 0 && functionsWithPriority.length > 0) q4.push(...functionsWithPriority.slice(Math.ceil(functionsWithPriority.length * 0.8)));
+              diagramHtml = generatePriorityQuadrantDiagram([...q1, ...q2, ...q3, ...q4]);
             }
             
           } else if (diagramTitle.includes('架构图') || diagramTitle.includes('功能架构')) {
@@ -8004,12 +8169,36 @@ ${classifiedOverview.slice(0, 2000)}
                 diagramHtml = generateArchitectureDiagramFromAnalysis(parsed);
                 console.log(`✅ 架构图生成成功，包含 ${parsed.layers?.length || 0} 个层级`);
               } else {
-                console.log('⚠️ JSON解析失败，使用简单版本');
-                diagramHtml = generateFunctionArchitectureDiagram(functionsForDiagram, systemName);
+                // 【修复】从COSMIC数据中分析真实的模块分组
+                console.log('⚠️ JSON解析失败，从COSMIC数据中分析真实模块分组生成架构图');
+                const moduleGroups = analyzeModuleGroups(functionsForDiagram);
+                // 使用真实的模块分组生成架构图
+                if (moduleGroups.length > 0) {
+                  // 构建模块数据用于生成架构图
+                  const modules = moduleGroups.map((group, idx) => ({
+                    name: group.name,
+                    functions: group.functions,
+                    color: ['#e3f2fd', '#fff3e0', '#e8f5e9', '#fce4ec', '#f3e5f5', '#e0f2f1'][idx % 6]
+                  }));
+                  diagramHtml = generateFunctionArchitectureDiagramWithModules(modules, systemName);
+                } else {
+                  diagramHtml = generateFunctionArchitectureDiagram(functionsForDiagram, systemName);
+                }
               }
             } catch (aiError) {
-              console.log('AI分析架构图失败，使用简单版本:', aiError.message);
-              diagramHtml = generateFunctionArchitectureDiagram(functionsForDiagram, systemName);
+              // 【修复】AI分析失败时，也从COSMIC数据中分析真实模块分组
+              console.log('AI分析架构图失败，从COSMIC数据中分析真实模块分组生成架构图:', aiError.message);
+              const moduleGroups = analyzeModuleGroups(functionsForDiagram);
+              if (moduleGroups.length > 0) {
+                const modules = moduleGroups.map((group, idx) => ({
+                  name: group.name,
+                  functions: group.functions,
+                  color: ['#e3f2fd', '#fff3e0', '#e8f5e9', '#fce4ec', '#f3e5f5', '#e0f2f1'][idx % 6]
+                }));
+                diagramHtml = generateFunctionArchitectureDiagramWithModules(modules, systemName);
+              } else {
+                diagramHtml = generateFunctionArchitectureDiagram(functionsForDiagram, systemName);
+              }
             }
             
           } else if (diagramTitle.includes('流程图') || diagramTitle.includes('业务流程')) {
