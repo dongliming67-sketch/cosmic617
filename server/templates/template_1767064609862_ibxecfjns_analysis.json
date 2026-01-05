@@ -1,0 +1,812 @@
+{
+  "documentStyle": "正式",
+  "numberFormat": "1.1.1",
+  "titleSeparator": ".",
+  "mainChapters": [
+    {
+      "number": "1",
+      "title": "引言",
+      "level": 1,
+      "purpose": "介绍文档的目的和结构，为读者提供对文档的整体理解。"
+    },
+    {
+      "number": "1.1",
+      "title": "术语和缩略词",
+      "level": 2,
+      "purpose": "定义文档中使用的专业术语和缩略词，确保理解的一致性。"
+    },
+    {
+      "number": "1.2",
+      "title": "约定和限制",
+      "level": 2,
+      "purpose": "说明文档中使用的约定和限制条件。"
+    },
+    {
+      "number": "1.3",
+      "title": "参考资料",
+      "level": 2,
+      "purpose": "列出文档中引用的参考资料。"
+    },
+    {
+      "number": "2",
+      "title": "业务功能概述",
+      "level": 1,
+      "purpose": "概述业务需求，包括需求背景和功能架构。"
+    },
+    {
+      "number": "2.1",
+      "title": "需求背景",
+      "level": 2,
+      "purpose": "描述产生该需求的原因和背景信息。"
+    },
+    {
+      "number": "2.2",
+      "title": "功能架构",
+      "level": 2,
+      "purpose": "展示系统的功能架构图，帮助理解系统组件之间的关系。"
+    },
+    {
+      "number": "3",
+      "title": "业务现状与分析",
+      "level": 1,
+      "purpose": "分析当前业务现状和存在的问题。"
+    },
+    {
+      "number": "3.1",
+      "title": "系统已实现功能描述",
+      "level": 2,
+      "purpose": "描述系统已经实现的功能。"
+    },
+    {
+      "number": "3.2",
+      "title": "需要解决的问题",
+      "level": 2,
+      "purpose": "列出需要解决的具体问题。"
+    },
+    {
+      "number": "4",
+      "title": "功能需求描述",
+      "level": 1,
+      "purpose": "详细描述系统的功能需求。"
+    },
+    {
+      "number": "4.1",
+      "title": "标题1",
+      "level": 2,
+      "purpose": "描述第一个功能需求的详细信息。"
+    },
+    {
+      "number": "4.1.1",
+      "title": "标题1.1",
+      "level": 3,
+      "purpose": "描述标题1.1的具体功能需求。"
+    },
+    {
+      "number": "4.2",
+      "title": "标题2",
+      "level": 2,
+      "purpose": "描述第二个功能需求的详细信息。"
+    },
+    {
+      "number": "4.2.1",
+      "title": "标题2.1",
+      "level": 3,
+      "purpose": "描述标题2.1的具体功能需求。"
+    },
+    {
+      "number": "5",
+      "title": "系统外部接口需求",
+      "level": 1,
+      "purpose": "描述系统与外部系统或设备的接口需求。"
+    },
+    {
+      "number": "6",
+      "title": "其他需求",
+      "level": 1,
+      "purpose": "描述除了功能需求之外的其他需求。"
+    },
+    {
+      "number": "6.1",
+      "title": "性能需求",
+      "level": 2,
+      "purpose": "描述系统的性能需求。"
+    },
+    {
+      "number": "6.2",
+      "title": "安全性需求",
+      "level": 2,
+      "purpose": "描述系统的安全性需求。"
+    },
+    {
+      "number": "6.2.1",
+      "title": "数据分级分类",
+      "level": 3,
+      "purpose": "描述数据的安全分级和分类。"
+    },
+    {
+      "number": "6.3",
+      "title": "其他需求（可选）",
+      "level": 2,
+      "purpose": "描述其他可选需求。"
+    },
+    {
+      "number": "7",
+      "title": "需求预评估计划",
+      "level": 1,
+      "purpose": "描述需求预评估的计划和指标。"
+    },
+    {
+      "number": "9",
+      "title": "附录",
+      "level": 1,
+      "purpose": "提供与需求相关的附加信息或参考资料。"
+    }
+  ],
+  "functionalChapterNumber": "4",
+  "functionalChapterTitle": "功能需求描述",
+  "functionalChapter": {
+    "number": "4",
+    "title": "功能需求描述",
+    "hierarchyLevels": 2,
+    "processContentTemplate": {
+      "sections": [
+        "4",
+        "4.1",
+        "4.1.1",
+        "4.2",
+        "4.2.1"
+      ],
+      "sectionsDetailed": [
+        {
+          "name": "4",
+          "purpose": "表示功能需求章节的开始",
+          "format": "text",
+          "sampleContent": "这是模板中功能需求章节的内容："
+        },
+        {
+          "name": "4.1",
+          "purpose": "表示功能需求章节下的第一个子节",
+          "format": "text",
+          "sampleContent": "### 4.1"
+        },
+        {
+          "name": "4.1.1",
+          "purpose": "表示功能需求章节下的第一个子节中的第一个子子节",
+          "format": "text",
+          "sampleContent": "### 4.1.1"
+        },
+        {
+          "name": "4.2",
+          "purpose": "表示功能需求章节下的第二个子节",
+          "format": "text",
+          "sampleContent": "### 4.2"
+        },
+        {
+          "name": "4.2.1",
+          "purpose": "表示功能需求章节下的第二个子节中的第一个子子节",
+          "format": "text",
+          "sampleContent": "### 4.2.1"
+        }
+      ],
+      "dataTableHeaders": [
+        "字段名",
+        "类型",
+        "长度",
+        "说明",
+        "是否必填"
+      ],
+      "numberSeparator": "."
+    }
+  },
+  "headerChapterNumbers": [
+    "1",
+    "2",
+    "3"
+  ],
+  "footerChapterNumbers": [
+    "5",
+    "6",
+    "7",
+    "9"
+  ],
+  "specialFeatures": [
+    "文档包含版本变更记录和审核信息。"
+  ],
+  "hierarchyLevels": 2,
+  "hierarchyStructure": {
+    "level1": {
+      "name": "功能需求",
+      "numberFormat": "4"
+    },
+    "level2": {
+      "name": "功能过程",
+      "numberFormat": "4.1"
+    }
+  },
+  "processContentTemplate": {
+    "sections": [
+      "4",
+      "4.1",
+      "4.1.1",
+      "4.2",
+      "4.2.1"
+    ],
+    "sectionsDetailed": [
+      {
+        "name": "4",
+        "purpose": "表示功能需求章节的开始",
+        "format": "text",
+        "sampleContent": "这是模板中功能需求章节的内容："
+      },
+      {
+        "name": "4.1",
+        "purpose": "表示功能需求章节下的第一个子节",
+        "format": "text",
+        "sampleContent": "### 4.1"
+      },
+      {
+        "name": "4.1.1",
+        "purpose": "表示功能需求章节下的第一个子节中的第一个子子节",
+        "format": "text",
+        "sampleContent": "### 4.1.1"
+      },
+      {
+        "name": "4.2",
+        "purpose": "表示功能需求章节下的第二个子节",
+        "format": "text",
+        "sampleContent": "### 4.2"
+      },
+      {
+        "name": "4.2.1",
+        "purpose": "表示功能需求章节下的第二个子节中的第一个子子节",
+        "format": "text",
+        "sampleContent": "### 4.2.1"
+      }
+    ],
+    "dataTableHeaders": [
+      "字段名",
+      "类型",
+      "长度",
+      "说明",
+      "是否必填"
+    ],
+    "numberSeparator": "."
+  },
+  "fullProcessExample": "4.1 XXX功能",
+  "writingGuidelines": "使用清晰、简洁的语言描述功能需求，确保每个功能过程和子节都有明确的编号和内容。",
+  "originalTemplateText": "\n\n\n\n\n\n中国移动通信集团江苏有限公司\n\n网优平台系统零流量站点报表开发需求说明书\n\n\n\n                                                                                                                                                                            \n\n功能是否重复\n\n否\n\n需求归属模块\n\n一级模块：应用中心、柔性网络\n\n二级模块：单验平台、容量报表\n\n需求类型\n\n单验平台为迭代，应用中心为新增\n\n迭代理由\n\n验收站无对应的位置点信息，无法满足代维系统计费需要，故增加位置点信息一并推至基站验收平台\n\n                                                                                                                                                      \n\n文 档 变 更 记 录\n\n版 本 编 号\n\n版 本 日 期\n\n修订人\n\n说 明\n\nV1.0\n\n2025-11\n\n周毅\n\n\n\nV1.1\n\n\n\n\n\n\n\n\n\n审 核 \n\n审核组织\n\n审核代表\n\n签字\n\n时间\n\n专业室需求接口人\n\n赵恒\n\n\n\n\n\n三级经理\n\n薛水冰\n\n\n\n\n\n分管领导\n\n吴鹏\n\n\n\n\n\n\n\n\n\n网络部\n\n2025年11月\n\n\n\n目录\n\n1. 引言\t3\n\n1.1. 术语和缩略词\t3\n\n1.2. 约定和限制\t3\n\n1.3. 参考资料\t3\n\n2. 业务功能概述\t3\n\n2.1. 需求背景\t3\n\n2.2. 功能架构\t4\n\n3. 业务现状与分析\t4\n\n3.1. 系统已实现功能描述\t4\n\n3.2. 需要解决的问题\t4\n\n4. 功能需求描述\t5\n\n4.1. 标题1\t5\n\n4.1.1. 标题1.1\t5\n\n4.2. 标题2\t5\n\n4.2.1. 标题2.1\t5\n\n5. 系统外部接口需求\t6\n\n6. 其他需求\t7\n\n6.1. 性能需求\t7\n\n6.2. 安全性需求\t7\n\n6.2.1. 数据分级分类\t7\n\n6.3. 其他需求（可选）\t7\n\n7. 需求预评估计划\t7\n\n附录\t9\n\n\n\n\n\n\n\n\n\n引言\n\n引言提出了对软件业务需求说明书的纵览，这有助于读者理解文档如何编写并且如何阅读和解释。\n\n术语和缩略词\n\n表 1术语和缩略语表\n\n准确描述需求中的专业概念和特定术语的含义，以确保在开发过程中能够正确地实现各项功能，避免因术语理解不一致而导致的错误或误解。\n\n术语或缩略语\n\n解释说明\n\nPOI\n\nPoint of Interest是指在地理信息系统（GIS）、地图应用和导航领域，POI 是指地图上任何非地理意义的有意义的点，比如学校、医院、餐厅、银行、加油站、旅游景点等。\n\nSDN\n\nSoftware - Defined Networking（软件定义网络）\n\nMTTR\n\nMean Time To Repair是指故障平均恢复时间\n\n\n\n\n\n\n\n约定和限制\n\n\n\n参考资料\n\n资料名称\n\n文号或者工单号\n\n\n\n\n\n\n\n\n\n\n\n\n\n业务功能概述\n\n需求背景\n\n根据集团代维费用审计要求，要求对于零流量站点不结算代维费，因此需开发零流量位置点报表，用于支撑费用结算。\n\n根据集团代维费用要求，验收任务需生成验收计次工单由代维人员执行，因此需增加验收站数据归属的位置点信息，用于支撑代维费用结算。\n\n\n\n功能架构\n\n\n\n图 1系统功能架构图\n\n业务现状与分析\n\n系统已实现功能描述\n\n系统已与EPMS、基站验收平台打通，具备验收站数据的接收与推送能力。\n\n需要解决的问题\n\n本需求需基于零流量小区计算能力、综资系统的小区与位置点关系，计算输出月度零流量位置点报表，以满足空站缴费风险自查需求。\n\n根据集团代维费用要求，验收任务需生成验收计次工单由代维人员执行，因此需增加验收站数据归属的位置点信息，用于支撑代维费用结算。\n\n功能需求描述\n\n标题1\n\n标题1.1\n\n标题1.1.1\n\n对接综合资源系统，获取综资系统的小区与位置点关系，在原零流量小区报表中新增位置点名称、位置点ID信息，新增呈现月度零流量位置点报表，并向综资系统定时推送月度零流量位置点报表。\n\n\n\n\n\n\n\n在现有的零流量小区报表中新增字段：位置点名称，根据综资系统的小区与位置点关系，进行匹配回填。若小区对应多位置点，以顿号隔开，都需在字段中呈现。\n\n\n\n\n\n新增月度零流量位置点报表，字段包含：月份、地市、区县、位置点名称、位置点ID。支持查询与下载。\n\n\n\n算法：\n\n小区状态为在网运行、工程试运行，且为0流量（只算流量采集为0，采集为空的不算）\n\n小区与位置点的关联关系包含一对多、多对多，需满足位置点关联的所有小区（2/4/5g）累加流量等于0\n\n\n\n\n\n每月1号 1:00推送上个月零流量位置点数据，字段包含：月份、地市、区县、位置点名称、位置点ID。\n\n综资系统线下提供服务器地址和路径。\n\n\n\n标题2\n\n标题2.1\n\n标题2.1.1\n\n对接综合资源系统，获取小区与位置点关系，在原零流量小区报表中新增位置点名称、位置点ID信息，新增呈现月度零流量位置点报表，并向综资系统定时推送月度零流量位置点报表。\n\nep推送验收任务给网优平台时，由网优平台给综资同步“站点类型/网络制式/需求编码/项目编码/任务编码”，接收综资反馈的机房名(基站)、位置点名（基站）和分布系统名称（室分）信息，并将获取的位置点和分布系统信息增加到验收站数据中，同步给集团验收平台。\n\nep推送验收任务给网优平台时，由网优平台给综资同步“站点类型/网络制式/需求编码/项目编码/任务编码”，如果综资反馈数据匹配失败，则驳回EP验收需求。\n\n\n\n\n\n标题2.1.1.1\n\n网优平台接收到EPMS的验收站数据后，将数据同步给综资，字段包含：站点类型、网络制式、需求编码、项目编码、任务编码，接收综资系统的资源匹配数据，当匹配结果返回为失败时，将对应站点数据驳回至EPMS。\n\n\n\n标题2.1.2.2\n\n在当前的验收站数据中，增加字段：EPMS 任务编码、EPMS 任务名称、EPMS 项目编码、EPMS 项目名称、资源类别、资源名称、资源综资id。\n\n当综资系统资源匹配成功，将位置点/分布系统信息（即资源类别、资源名称、资源综资id）随验收站数据一起同步给集团基站验收平台。\n\nresType\n\n资源类别\n\n1、位置点；2、分布系统；3、机房\n\nresName\n\n资源名称\n\n\n\nresld\n\n资源综资id\n\n\n\n\n\n系统外部接口需求\n\n如果本功能需要和外部系统进行对接，需要明确、详细地描述系统与外部系统或设备的交互方式和要求。\n\n接口提供方\n\nEPMS\n\n接口调用方\n\n网优平台系统\n\n接口名称\n\n验收站驳回EPMS接口\n\n接口方式\n\nHTTPS\n\n\n\n\n\n接口提供方\n\n基站验收平台\n\n接口调用方\n\n网优平台系统\n\n接口名称\n\n验收站信息推送基站验收平台接口\n\n接口方式\n\nHTTPS\n\n\n\n\n\n接口提供方\n\n综资系统\n\n接口调用方\n\n网优平台系统\n\n接口名称\n\n月度零流量位置点数据推送综资\n\n接口方式\n\nSFTP\n\n其他需求\n\n\n\n性能需求\n\n在系统并发最大数范围内，系统网页对前台用户的响应时间在不考虑网络延迟的条件下，10秒内完成。\n\n安全性需求\n\n数据分级分类\n\n编号\n\n业务功能点\n\n说明\n\n核心业务数据或字段\n\n分级分类标签\n\n安全管控手段\n\n责任单位(三级部门）\n\n责任人\n\n1\n\n新增月度零流量位置点报表\n\n实现数据关联计算工作\n\n零流量位置点数据\n\n第2级E类\n\n安全存储\n\n运营管理室\n\n周毅\n\n2\n\n同步位置点/分布系统信息至基站验收平台\n\n实现数据关联与同步工作\n\n验收站归属资源点数据\n\n第2级E类\n\n安全存储\n\n运营管理室\n\n周毅\n\n\n\n其他需求（可选）\n\n需求预评估计划\n\n功能开发上线使用后，应提供相关的后评估价值指标，下表为详情。\n\n\n\n后评估指标\n\n目标值\n\n当前值\n\n预计评估值\n\n数据来源\n\n说明\n\n指标1\n\n数据完整性\n\n月粒度输出零流量位置点；天粒度推送验收站资源类别\n\n当前无数据，需新增\n\n月粒度完整输出零流量位置点；天粒度完整推送验收站资源类别\n\n网优平台系统\n\n\n\n指标2\n\n数据准确性\n\n零流量位置点准确性；验收站资源类别准确性\n\n当前无数据，需新增\n\n零流量位置点准确；验收站资源类别准确\n\n网优平台系统\n\n\n\n\n\n附录 \n\n附上引用的国标、行业标准、企业标准等技术规范等与本需求相关的资料。\n\n\n\n",
+  "sections": [
+    {
+      "number": "1",
+      "title": "引言",
+      "level": 1,
+      "lineIndex": 108,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "介绍文档的目的和结构，为读者提供对文档的整体理解。"
+    },
+    {
+      "number": "1.1",
+      "title": "术语和缩略词",
+      "level": 2,
+      "lineIndex": 110,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "定义文档中使用的专业术语和缩略词，确保理解的一致性。"
+    },
+    {
+      "number": "1.2",
+      "title": "约定和限制",
+      "level": 2,
+      "lineIndex": 112,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "说明文档中使用的约定和限制条件。"
+    },
+    {
+      "number": "1.3",
+      "title": "参考资料",
+      "level": 2,
+      "lineIndex": 114,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "列出文档中引用的参考资料。"
+    },
+    {
+      "number": "2",
+      "title": "业务功能概述",
+      "level": 1,
+      "lineIndex": 116,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "概述业务需求，包括需求背景和功能架构。"
+    },
+    {
+      "number": "2.1",
+      "title": "需求背景",
+      "level": 2,
+      "lineIndex": 118,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述产生该需求的原因和背景信息。"
+    },
+    {
+      "number": "2.2",
+      "title": "功能架构",
+      "level": 2,
+      "lineIndex": 120,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "展示系统的功能架构图，帮助理解系统组件之间的关系。"
+    },
+    {
+      "number": "3",
+      "title": "业务现状与分析",
+      "level": 1,
+      "lineIndex": 122,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "分析当前业务现状和存在的问题。"
+    },
+    {
+      "number": "3.1",
+      "title": "系统已实现功能描述",
+      "level": 2,
+      "lineIndex": 124,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统已经实现的功能。"
+    },
+    {
+      "number": "3.2",
+      "title": "需要解决的问题",
+      "level": 2,
+      "lineIndex": 126,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "列出需要解决的具体问题。"
+    },
+    {
+      "number": "4",
+      "title": "功能需求描述",
+      "level": 1,
+      "lineIndex": 128,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "详细描述系统的功能需求。"
+    },
+    {
+      "number": "4.1",
+      "title": "标题1",
+      "level": 2,
+      "lineIndex": 130,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述第一个功能需求的详细信息。"
+    },
+    {
+      "number": "4.1.1",
+      "title": "标题1.1",
+      "level": 3,
+      "lineIndex": 132,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述标题1.1的具体功能需求。"
+    },
+    {
+      "number": "4.2",
+      "title": "标题2",
+      "level": 2,
+      "lineIndex": 134,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述第二个功能需求的详细信息。"
+    },
+    {
+      "number": "4.2.1",
+      "title": "标题2.1",
+      "level": 3,
+      "lineIndex": 136,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述标题2.1的具体功能需求。"
+    },
+    {
+      "number": "5",
+      "title": "系统外部接口需求",
+      "level": 1,
+      "lineIndex": 138,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统与外部系统或设备的接口需求。"
+    },
+    {
+      "number": "6",
+      "title": "其他需求",
+      "level": 1,
+      "lineIndex": 140,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述除了功能需求之外的其他需求。"
+    },
+    {
+      "number": "6.1",
+      "title": "性能需求",
+      "level": 2,
+      "lineIndex": 142,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统的性能需求。"
+    },
+    {
+      "number": "6.2",
+      "title": "安全性需求",
+      "level": 2,
+      "lineIndex": 144,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统的安全性需求。"
+    },
+    {
+      "number": "6.2.1",
+      "title": "数据分级分类",
+      "level": 3,
+      "lineIndex": 146,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述数据的安全分级和分类。"
+    },
+    {
+      "number": "6.3",
+      "title": "其他需求（可选）",
+      "level": 2,
+      "lineIndex": 148,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述其他可选需求。"
+    },
+    {
+      "number": "7",
+      "title": "需求预评估计划",
+      "level": 1,
+      "lineIndex": 150,
+      "contentSnippet": "附录\t9\n\n\n\n\n\n\n\n\n\n引言\n\n引言提出了对软件业务需求说明书的纵览，这有助于读者理解文档如何编写并且如何阅读和解释。\n\n术语和缩略词\n\n表 1术语和缩略语表\n\n准确描述需求中的专业概念和特定术语的含义，以确保在开发过程中能够正确地实现各项功能，避免因术语理解不一致而导致的错误或误解。\n\n术语或缩略语\n\n解释说明\n\nPOI\n\nPoint of Interest是指在地理信息系统（GIS）、地图应用和导航领域，POI 是指地图上任何非地理意义的有意义的点，比如学校、医院、餐厅、银行、加油站、旅游景点等。\n\nSDN\n\nSoftware - Defined Networking（软件定义网络）\n\nMTTR\n\nMean Time To Repair是指故障平均恢复时间\n\n\n\n\n\n\n\n约定和限制\n\n\n\n参考资料\n\n资料名称\n\n文号或者工单号\n\n\n\n\n\n\n\n\n\n\n\n\n\n业务功能概述\n\n需求背景\n\n根据集团代维费用审计要求，要求对于零流量站点不结算代维费，因此需开发零流量位置点报表，用于支撑费用结算。\n\n根据集团代维费用要求，验收任务需生成验收计次工单由代维人员执行，因此需增加验收站数据归属的位",
+      "contentLength": 2619,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述需求预评估的计划和指标。"
+    }
+  ],
+  "allChapters": [
+    {
+      "number": "1",
+      "title": "引言",
+      "level": 1,
+      "lineIndex": 108,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "介绍文档的目的和结构，为读者提供对文档的整体理解。"
+    },
+    {
+      "number": "1.1",
+      "title": "术语和缩略词",
+      "level": 2,
+      "lineIndex": 110,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "定义文档中使用的专业术语和缩略词，确保理解的一致性。"
+    },
+    {
+      "number": "1.2",
+      "title": "约定和限制",
+      "level": 2,
+      "lineIndex": 112,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "说明文档中使用的约定和限制条件。"
+    },
+    {
+      "number": "1.3",
+      "title": "参考资料",
+      "level": 2,
+      "lineIndex": 114,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "列出文档中引用的参考资料。"
+    },
+    {
+      "number": "2",
+      "title": "业务功能概述",
+      "level": 1,
+      "lineIndex": 116,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "概述业务需求，包括需求背景和功能架构。"
+    },
+    {
+      "number": "2.1",
+      "title": "需求背景",
+      "level": 2,
+      "lineIndex": 118,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述产生该需求的原因和背景信息。"
+    },
+    {
+      "number": "2.2",
+      "title": "功能架构",
+      "level": 2,
+      "lineIndex": 120,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "展示系统的功能架构图，帮助理解系统组件之间的关系。"
+    },
+    {
+      "number": "3",
+      "title": "业务现状与分析",
+      "level": 1,
+      "lineIndex": 122,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "分析当前业务现状和存在的问题。"
+    },
+    {
+      "number": "3.1",
+      "title": "系统已实现功能描述",
+      "level": 2,
+      "lineIndex": 124,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统已经实现的功能。"
+    },
+    {
+      "number": "3.2",
+      "title": "需要解决的问题",
+      "level": 2,
+      "lineIndex": 126,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "列出需要解决的具体问题。"
+    },
+    {
+      "number": "4",
+      "title": "功能需求描述",
+      "level": 1,
+      "lineIndex": 128,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "详细描述系统的功能需求。"
+    },
+    {
+      "number": "4.1",
+      "title": "标题1",
+      "level": 2,
+      "lineIndex": 130,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述第一个功能需求的详细信息。"
+    },
+    {
+      "number": "4.1.1",
+      "title": "标题1.1",
+      "level": 3,
+      "lineIndex": 132,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述标题1.1的具体功能需求。"
+    },
+    {
+      "number": "4.2",
+      "title": "标题2",
+      "level": 2,
+      "lineIndex": 134,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述第二个功能需求的详细信息。"
+    },
+    {
+      "number": "4.2.1",
+      "title": "标题2.1",
+      "level": 3,
+      "lineIndex": 136,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述标题2.1的具体功能需求。"
+    },
+    {
+      "number": "5",
+      "title": "系统外部接口需求",
+      "level": 1,
+      "lineIndex": 138,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统与外部系统或设备的接口需求。"
+    },
+    {
+      "number": "6",
+      "title": "其他需求",
+      "level": 1,
+      "lineIndex": 140,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述除了功能需求之外的其他需求。"
+    },
+    {
+      "number": "6.1",
+      "title": "性能需求",
+      "level": 2,
+      "lineIndex": 142,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统的性能需求。"
+    },
+    {
+      "number": "6.2",
+      "title": "安全性需求",
+      "level": 2,
+      "lineIndex": 144,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述系统的安全性需求。"
+    },
+    {
+      "number": "6.2.1",
+      "title": "数据分级分类",
+      "level": 3,
+      "lineIndex": 146,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述数据的安全分级和分类。"
+    },
+    {
+      "number": "6.3",
+      "title": "其他需求（可选）",
+      "level": 2,
+      "lineIndex": 148,
+      "contentSnippet": "",
+      "contentLength": 0,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述其他可选需求。"
+    },
+    {
+      "number": "7",
+      "title": "需求预评估计划",
+      "level": 1,
+      "lineIndex": 150,
+      "contentSnippet": "附录\t9\n\n\n\n\n\n\n\n\n\n引言\n\n引言提出了对软件业务需求说明书的纵览，这有助于读者理解文档如何编写并且如何阅读和解释。\n\n术语和缩略词\n\n表 1术语和缩略语表\n\n准确描述需求中的专业概念和特定术语的含义，以确保在开发过程中能够正确地实现各项功能，避免因术语理解不一致而导致的错误或误解。\n\n术语或缩略语\n\n解释说明\n\nPOI\n\nPoint of Interest是指在地理信息系统（GIS）、地图应用和导航领域，POI 是指地图上任何非地理意义的有意义的点，比如学校、医院、餐厅、银行、加油站、旅游景点等。\n\nSDN\n\nSoftware - Defined Networking（软件定义网络）\n\nMTTR\n\nMean Time To Repair是指故障平均恢复时间\n\n\n\n\n\n\n\n约定和限制\n\n\n\n参考资料\n\n资料名称\n\n文号或者工单号\n\n\n\n\n\n\n\n\n\n\n\n\n\n业务功能概述\n\n需求背景\n\n根据集团代维费用审计要求，要求对于零流量站点不结算代维费，因此需开发零流量位置点报表，用于支撑费用结算。\n\n根据集团代维费用要求，验收任务需生成验收计次工单由代维人员执行，因此需增加验收站数据归属的位",
+      "contentLength": 2619,
+      "hasTable": false,
+      "hasList": false,
+      "hasCode": false,
+      "purpose": "描述需求预评估的计划和指标。"
+    }
+  ],
+  "analysisTime": "2025-12-30T03:17:42.854Z",
+  "analysisVersion": "3.0"
+}

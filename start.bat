@@ -62,10 +62,17 @@ echo OK
 echo.
 
 echo [5/5] Killing existing processes on ports 3001 and 5173...
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":3001.*LISTENING" 2^>nul') do (
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:":3001 .*LISTENING"') do (
     taskkill /F /PID %%a >nul 2>nul
 )
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":5173.*LISTENING" 2^>nul') do (
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:":5173 .*LISTENING"') do (
+    taskkill /F /PID %%a >nul 2>nul
+)
+:: IPv6 checks
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:"\[::\]:3001 .*LISTENING"') do (
+    taskkill /F /PID %%a >nul 2>nul
+)
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:"\[::\]:5173 .*LISTENING"') do (
     taskkill /F /PID %%a >nul 2>nul
 )
 echo OK
@@ -73,16 +80,16 @@ echo.
 
 echo ========================================
 echo   Starting services...
-echo   Backend: http://localhost:3001
-echo   Frontend: http://localhost:5173
+echo   Frontend (Dev): http://localhost:5173
+echo   Frontend (Statics) / Backend: http://localhost:3001
 echo   Press Ctrl+C to stop
 echo ========================================
 echo.
 
-timeout /t 3 /nobreak >nul
+timeout /t 5 /nobreak >nul
 start http://localhost:5173
 
-call npm run dev
+npm run dev
 
 echo.
 echo Service stopped.

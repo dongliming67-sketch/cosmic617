@@ -127,23 +127,22 @@ echo.
 
 :: 启动应用
 echo [5/5] 🚀 启动应用服务...
-echo    - Cosmic拆分: AI功能过程拆解 + Excel导出
-echo    - 需求规格书: 文档上传、结构化分析、Word导出
-echo    - 架构图生成: AI分析 + PNG/PPT导出
+echo    - 模式: 混合开发模式 (支持热更新 + 静态产物)
+echo    - 后端/静态服务: http://localhost:3001
+echo    - 前端开发服务: http://localhost:5173 (推荐)
 echo.
 echo =============================================================
 echo   服务启动中，请稍候...
-echo   后端服务: http://localhost:3001 (API / Word导出)
-echo   前端服务: http://localhost:5173 (Cosmic / 需求规格)
+echo   提示: 如果 5173 暂时打不开，可以尝试访问 http://localhost:3001
 echo   提示: 按 Ctrl+C 可停止服务
 echo =============================================================
 echo.
 
-:: 等待3秒后自动打开浏览器
-start /b timeout /t 3 /nobreak >nul && start http://localhost:5173
+:: 等待3秒后自动打开浏览器 (优先尝试 5173)
+start /b timeout /t 5 /nobreak >nul && start http://localhost:5173
 
 :: 启动开发服务器
-call npm run dev
+npm run dev
 
 :: 如果服务异常退出
 echo.
@@ -153,8 +152,13 @@ goto :eof
 
 :kill_port
 set "port=%~1"
-for /f "tokens=5" %%a in ('netstat -ano 2^>nul ^| findstr ":%port% " ^| findstr "LISTENING"') do (
-    echo ⚠️  端口%port%被占用 PID:%%a，正在释放...
+:: 更加鲁棒的端口释放逻辑
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:":%port% .*LISTENING"') do (
+    echo ⚠️  检测到端口 %port% 被占用 (PID: %%a)，正在释放资源...
+    taskkill /F /PID %%a >nul 2>nul
+)
+:: 针对 IPv6 的二次检查
+for /f "tokens=5" %%a in ('netstat -ano ^| findstr /R /C:"\[::\]:%port% .*LISTENING"') do (
     taskkill /F /PID %%a >nul 2>nul
 )
 goto :eof
